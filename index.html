@@ -14,7 +14,6 @@
         
         form {
             padding: 20px 12px 10px 20px;
-            /*background: #b5d0d0;*/
             background: #f7f5f2;
             border-top-style: solid;
             border-top-width: 2px;
@@ -90,8 +89,6 @@
         
         .map {
             width: 100%;
-            height: 100%;
-            position: fixed;
             font: 13px Arial, Helvetica, sans-serif;
         }
     </style>
@@ -239,10 +236,65 @@
                 }
                 output += ")";
                 remainingLineStrings = remainingLineStrings.substring(endBracket + 1).trim();
-                if (remainingLineStrings.length > 0 && !remainingLineStrings.startsWith(",")) {
-                    throw "Missing comma in well-known text";
-                } 
-                remainingLineStrings = remainingLineStrings.substring(1).trim();
+                if (remainingLineStrings.length > 0) {
+                    if (!remainingLineStrings.startsWith(",")) {
+                        throw "Missing comma in well-known text";
+                    } 
+                    remainingLineStrings = remainingLineStrings.substring(1).trim();
+                }
+            }
+            output += ")";
+            return output;
+        }
+        
+        function polygon2Polygon(wkt) {
+            var startBracket = wkt.indexOf("(");
+            var endBracket = wkt.lastIndexOf(")");
+            if (startBracket < 0 || endBracket < startBracket) {
+                throw "Missing bracket in well-known text";
+            }
+            var remainingRings = wkt.substring(startBracket + 1, endBracket).trim();
+            var output = "POLYGON (";
+            var isOuterRing = true;
+            while (remainingRings.length > 0) {
+                startBracket = remainingRings.indexOf("(");
+                endBracket = remainingRings.indexOf(")");
+                if (startBracket < 0 || endBracket < startBracket) {
+                    throw "Missing bracket in well-known text";
+                }
+                var coordinates = remainingRings.substring(startBracket + 1, endBracket).trim().split(",");
+                if (coordinates.length < 2) {
+                    throw "Invalid number of coordinates";
+                }
+                if (isOuterRing) {
+                    isOuterRing = false;
+                } else {
+                    output += ", ";
+                }
+                output += "(";
+                var firstCoordinate = true;
+                for (let coordinate of coordinates) {
+                    var ordinates = coordinate.trim().split(" ");
+                    if (ordinates.length != 2 && ordinates.length != 3) {
+                        throw "Invalid number of ordinates";
+                    }
+                    var x = parseFloat(ordinates[0]);
+                    var y = parseFloat(ordinates[1]);
+                    if (firstCoordinate) {
+                        firstCoordinate = false;
+                    } else {
+                        output += ", ";
+                    }
+                    output += x + " " + y;
+                }
+                output += ")";
+                remainingRings = remainingRings.substring(endBracket + 1).trim();
+                if (remainingRings.length > 0) {
+                    if (!remainingRings.startsWith(",")) {
+                        throw "Missing comma in well-known text";
+                    } 
+                    remainingRings = remainingRings.substring(1).trim();
+                }
             }
             output += ")";
             return output;
@@ -257,9 +309,11 @@
             }
             if (wkt.startsWith("MULTILINESTRING")) {
                 return multiLineString2MultiLineString(wkt);
-            } else {
-                throw "Geometry type not supported";
             }
+            if (wkt.startsWith("POLYGON")) {
+                return polygon2Polygon(wkt);
+            }
+            throw "Geometry type not supported";
         }
       
         function updateMap() {
@@ -271,6 +325,7 @@
             drawLayer.addFeature(feature);
             var extent = feature.getGeometry().getExtent();
             map.getView().fit(extent, map.getSize());
+            document.getElementById("map").scrollIntoView(true);
         };
     </script>
 </body>
