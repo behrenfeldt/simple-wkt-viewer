@@ -115,7 +115,7 @@
                 <option value="EPSG:3018">SWEREF99 23 15 (EPSG:3018)</option>
                 <option value="EPSG:25832">ETRS89 / UTM zone 32N (EPSG:25832)</option>
                 <option value="EPSG:25833">ETRS89 / UTM zone 33N (EPSG:25833)</option>
-			</select>
+            </select>
         </label>
         <label for="input-wkt">
             <span>Well-Known Text:</span>
@@ -307,17 +307,15 @@
         function wkt2Wkt(wkt) {
             if (wkt.startsWith("POINT")) {
                 return point2Point(wkt);
-            }
-            if (wkt.startsWith("LINESTRING")) {
+            } else if (wkt.startsWith("LINESTRING")) {
                 return lineString2LineString(wkt);
-            }
-            if (wkt.startsWith("MULTILINESTRING")) {
+            } else if (wkt.startsWith("MULTILINESTRING")) {
                 return multiLineString2MultiLineString(wkt);
-            }
-            if (wkt.startsWith("POLYGON")) {
+            } else if (wkt.startsWith("POLYGON")) {
                 return polygon2Polygon(wkt);
-            }
-            throw "Geometry type not supported";
+            } else {
+				return wkt;
+			}
         }
       
         function updateMap() {
