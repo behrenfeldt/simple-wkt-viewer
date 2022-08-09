@@ -99,21 +99,23 @@
         <label for="input-srid">
             <span>Coordinate System:</span>
             <select id="input-srid">
-                <option value="EPSG:4326">WGS 84</option>
-                <option value="EPSG:3006">SWEREF99 TM</option>
-                <option value="EPSG:3007">SWEREF99 12 00</option>
-                <option value="EPSG:3008">SWEREF99 13 30</option>
-                <option value="EPSG:3009">SWEREF99 15 00</option>
-                <option value="EPSG:3010">SWEREF99 16 30</option>
-                <option value="EPSG:3011">SWEREF99 18 00</option>
-                <option value="EPSG:3012">SWEREF99 14 15</option>
-                <option value="EPSG:3013">SWEREF99 15 45</option>
-                <option value="EPSG:3014">SWEREF99 17 15</option>
-                <option value="EPSG:3015">SWEREF99 18 45</option>
-                <option value="EPSG:3016">SWEREF99 20 15</option>
-                <option value="EPSG:3017">SWEREF99 21 45</option>
-                <option value="EPSG:3018">SWEREF99 23 15</option>
-            </select>
+                <option value="EPSG:4326">WGS 84 (EPSG:4326)</option>
+                <option value="EPSG:3006">SWEREF99 TM (EPSG:3006)</option>
+                <option value="EPSG:3007">SWEREF99 12 00 (EPSG:3007)</option>
+                <option value="EPSG:3008">SWEREF99 13 30 (EPSG:3008)</option>
+                <option value="EPSG:3009">SWEREF99 15 00 (EPSG:3009)</option>
+                <option value="EPSG:3010">SWEREF99 16 30 (EPSG:3010)</option>
+                <option value="EPSG:3011">SWEREF99 18 00 (EPSG:3011)</option>
+                <option value="EPSG:3012">SWEREF99 14 15 (EPSG:3012)</option>
+                <option value="EPSG:3013">SWEREF99 15 45 (EPSG:3013)</option>
+                <option value="EPSG:3014">SWEREF99 17 15 (EPSG:3014)</option>
+                <option value="EPSG:3015">SWEREF99 18 45 (EPSG:3015)</option>
+                <option value="EPSG:3016">SWEREF99 20 15 (EPSG:3016)</option>
+                <option value="EPSG:3017">SWEREF99 21 45 (EPSG:3017)</option>
+                <option value="EPSG:3018">SWEREF99 23 15 (EPSG:3018)</option>
+                <option value="EPSG:25832">ETRS89 / UTM zone 32N (EPSG:25832)</option>
+                <option value="EPSG:25833">ETRS89 / UTM zone 33N (EPSG:25833)</option>
+			</select>
         </label>
         <label for="input-wkt">
             <span>Well-Known Text:</span>
@@ -139,6 +141,8 @@
         proj4.defs("EPSG:3016","+proj=tmerc +lat_0=0 +lon_0=20.25 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
         proj4.defs("EPSG:3017","+proj=tmerc +lat_0=0 +lon_0=21.75 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
         proj4.defs("EPSG:3018","+proj=tmerc +lat_0=0 +lon_0=23.25 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+		proj4.defs("EPSG:25832","+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
+		proj4.defs("EPSG:25833","+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
         
         var style = new ol.style.Style( { stroke: new ol.style.Stroke( { color: '#FF0000', width: 2 } ) } );
         
